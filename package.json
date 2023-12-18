@@ -1,0 +1,32 @@
+{
+  "name": "app",
+  "private": "true",
+  "scripts": {
+    "build": "bun bun.config.ts",
+    "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
+    "lint:eslint": "eslint --ext .js,.ts,.html.erb app/",
+    "lint:stylelint": "stylelint app/**/*.css",
+    "lint:prettier": "bun prettier **/*.{js,ts,css,json,html} *.{js,ts,json} --check --no-error-on-unmatched-pattern"
+  },
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo-rails": "^8.0.0-beta.1",
+    "autoprefixer": "latest",
+    "postcss": "latest",
+    "tailwindcss": "latest"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.9.1",
+    "@typescript-eslint/parser": "^6.9.1",
+    "bun-types": "^1.0.10",
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-semistandard": "^17.0.0",
+    "eslint-plugin-html": "^7.1.0",
+    "prettier": "^3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.6",
+    "stylelint": "^15.11.0",
+    "stylelint-config-standard": "^34.0.0",
+    "typescript": "^5.2.2"
+  }
+}

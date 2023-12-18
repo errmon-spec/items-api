@@ -1,0 +1,15 @@
+# See https://git-scm.com/docs/gitattributes for more about git attribute files.
+
+bin/** linguist-generated
+db/schema.rb linguist-generated
+vendor/** linguist-vendored
+
+Gemfile.lock linguist-generated
+package-lock.json linguist-generated
+*.lockb linguist-generated
+*.lockb diff=lockb # See https://bun.sh/docs/install/lockfile
+
+# Rails Credentials:
+# https://edgeguides.rubyonrails.org/security.html#custom-credentials
+config/credentials/*.yml.enc diff=rails_credentials
+config/credentials.yml.enc diff=rails_credentials
