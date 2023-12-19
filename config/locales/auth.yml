@@ -1,0 +1,3 @@
+en:
+  auth:
+    error: Error when trying to login with Keycloak
