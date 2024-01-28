@@ -9,6 +9,4 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root 'homepage#index'
-
-  devise_for :users, controllers: { omniauth_callbacks: 'session/omniauth_callbacks' }
 end

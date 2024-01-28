@@ -1,5 +1,0 @@
-<% if user_signed_in? %>
-  Bem-vindo, <strong><%= current_user.email %></strong>.
-<% else %>
-  <%= button_to "Entrar", user_keycloakopenid_omniauth_authorize_path, data: { turbo: false } %>
-<% end %>

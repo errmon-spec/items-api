@@ -7,13 +7,10 @@ ruby file: File.join(__dir__, '.ruby-version')
 
 gem 'bootsnap', '~> 1.17', require: false
 gem 'cssbundling-rails', '~> 1.3'
-gem 'devise', '~> 4.9'
 gem 'hiredis-client', '~> 0.19.0'
 gem 'jsbundling-rails', '~> 1.2'
 gem 'msgpack', '~> 1.7'
 gem 'oj', '~> 3.16'
-gem 'omniauth-keycloak', '~> 1.5'
-gem 'omniauth-rails_csrf_protection', '~> 1.0'
 gem 'pg', '~> 1.5'
 gem 'puma', '~> 6.4'
 gem 'rails', '~> 7.1.2'
