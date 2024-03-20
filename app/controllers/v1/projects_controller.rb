@@ -3,7 +3,9 @@
 module V1
   class ProjectsController < ApplicationController
     def index
-      projects = current_user.projects
+      pagy, projects = pagy(current_user.projects)
+      pagy_headers_merge(pagy)
+
       render json: ProjectSerializer.serialize_collection(projects)
     end
 

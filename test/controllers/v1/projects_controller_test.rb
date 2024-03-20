@@ -13,6 +13,18 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
       assert_response :success
       assert_equal ProjectSerializer.serialize_collection(projects).to_json, @response.body
     end
+
+    test 'paginates' do # rubocop:disable Minitest/MultipleAssertions
+      user = create(:user)
+      create_list(:project, 2, owner: user)
+
+      get v1_projects_path, headers: authorization_headers(user)
+
+      assert_equal '1', @response.headers['current-page']
+      assert_equal '20', @response.headers['page-items']
+      assert_equal '1', @response.headers['total-pages']
+      assert_equal '2', @response.headers['total-count']
+    end
   end
 
   describe 'GET /v1/projects/:id' do

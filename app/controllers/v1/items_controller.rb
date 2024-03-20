@@ -3,7 +3,9 @@
 module V1
   class ItemsController < ApplicationController
     def index
-      items = project.items
+      pagy, items = pagy(project.items)
+      pagy_headers_merge(pagy)
+
       render json: ItemSerializer.serialize_collection(items)
     end
 
