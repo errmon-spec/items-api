@@ -60,7 +60,6 @@ module Errmon
     config.database_pool_size = config.max_threads
 
     config.active_record.db_warnings_action = :report
-    config.active_record.schema_format = :sql
 
     ActiveSupport.on_load(:active_record_postgresqladapter) do
       self.datetime_type = :timestamptz
