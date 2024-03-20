@@ -76,7 +76,7 @@ services:
 
   postgres:
     container_name: errmon-postgres
-    image: postgres-ulid-ext:0.1.0
+    image: ghcr.io/errmon-spec/errmon-spec/postgres:6a09632
     restart: no
     environment:
       POSTGRES_PASSWORD: postgres
