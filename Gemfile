@@ -6,6 +6,7 @@ ruby file: File.join(__dir__, '.ruby-version')
 
 gem 'bootsnap', '~> 1.17', require: false
 gem 'dry-monads', '~> 1.6'
+gem 'dry-struct', '~> 1.6'
 gem 'dry-validation', '~> 1.10'
 gem 'keycloak-api-rails', '~> 0.12.2'
 gem 'msgpack', '~> 1.7'
