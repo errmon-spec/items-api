@@ -69,6 +69,13 @@ module Errmon
     end
 
     ##
+    ## Keycloak
+    ##
+
+    config.keycloak_server_url = ENV.fetch('KEYCLOAK_APP_URL', 'http://keycloak:8080')
+    config.keycloak_realm_id = ENV.fetch('KEYCLOAK_REALM', 'errmon')
+
+    ##
     ## Logger
     ##
 
