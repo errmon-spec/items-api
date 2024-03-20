@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get 'up' => 'rails/health#show', as: :rails_health_check
 
   namespace :v1 do
-    resources :projects, only: %i[index show create destroy]
+    resources :projects, only: %i[index show create destroy] do
+      resources :items, only: %i[index show]
+    end
   end
 end

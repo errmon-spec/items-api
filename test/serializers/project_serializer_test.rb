@@ -4,7 +4,7 @@ require 'test_helper'
 
 class ProjectSerializerTest < ActiveSupport::TestCase
   test 'serializes a project' do
-    project = build(:project)
+    project = create(:project)
 
     expected = {
       id: project.id,
