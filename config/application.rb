@@ -45,6 +45,7 @@ module Errmon
 
     # Errmon
     config.time_zone = 'Brasilia'
+    config.instance_name = 'local'
 
     # Thread Pool
     config.max_threads = ENV.fetch('RAILS_MAX_THREADS', 5).to_i
@@ -71,6 +72,12 @@ module Errmon
 
     config.keycloak_server_url = ENV.fetch('KEYCLOAK_APP_URL', 'http://keycloak:8080')
     config.keycloak_realm_id = ENV.fetch('KEYCLOAK_REALM', 'errmon')
+
+    ##
+    ## RabbitMQ
+    ##
+
+    config.rabbitmq_url = ENV['RABBITMQ_URL']
 
     ##
     ## Performance

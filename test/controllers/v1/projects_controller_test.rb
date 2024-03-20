@@ -3,53 +3,78 @@
 require 'test_helper'
 
 class ProjectsControllerTest < ActionDispatch::IntegrationTest
-  test 'returns all user projects' do
-    user = create(:user)
-    projects = create_list(:project, 2, owner: user)
+  describe 'GET /v1/projects' do
+    test 'returns all user projects' do
+      user = create(:user)
+      projects = create_list(:project, 2, owner: user)
 
-    get v1_projects_path, headers: authorization_headers(user)
+      get v1_projects_path, headers: authorization_headers(user)
 
-    assert_response :success
-    assert_equal ProjectSerializer.serialize_collection(projects).to_json, @response.body
+      assert_response :success
+      assert_equal ProjectSerializer.serialize_collection(projects).to_json, @response.body
+    end
   end
 
-  test 'returns an user project' do
-    user = create(:user)
-    project = create(:project, owner: user)
+  describe 'GET /v1/projects/:id' do
+    test 'returns an user project' do
+      user = create(:user)
+      project = create(:project, owner: user)
 
-    get v1_project_path(project), headers: authorization_headers(user)
+      get v1_project_path(project), headers: authorization_headers(user)
 
-    assert_response :success
-    assert_equal ProjectSerializer.new(project).to_json, @response.body
+      assert_response :success
+      assert_equal ProjectSerializer.new(project).to_json, @response.body
+    end
   end
 
-  test 'creates an user project' do
-    user = create(:user)
+  describe 'POST /v1/projects' do
+    test 'creates an user project' do
+      user = create(:user)
 
-    assert_difference -> { user.projects.count } do
+      assert_difference -> { user.projects.count } do
+        post v1_projects_path,
+          headers: authorization_headers(user),
+          params: {
+            project: {
+              name: 'Project 111',
+            },
+          }
+      end
+
+      project = user.projects.last
+
+      assert_response :success
+      assert_equal ProjectSerializer.new(project).to_json, @response.body
+    end
+
+    test 'publishes an event when a project is created' do
+      user = create(:user)
+
       post v1_projects_path,
+        headers: authorization_headers(user),
         params: {
           project: {
-            name: 'Project 1',
+            name: 'Project 222',
           },
-        },
-        headers: authorization_headers(user)
+        }
+
+      project = user.projects.last
+      expected_payload = { project_id: project.id, token: project.token }
+
+      assert_published 'project.updated', expected_payload
     end
-
-    project = user.projects.last
-
-    assert_response :success
-    assert_equal ProjectSerializer.new(project).to_json, @response.body
   end
 
-  test 'deletes the project' do
-    user = create(:user)
-    project = create(:project, owner: user)
+  describe 'DELETE /v1/projects/:id' do
+    test 'deletes the project' do
+      user = create(:user)
+      project = create(:project, owner: user)
 
-    assert_difference -> { user.projects.count }, -1 do
-      delete v1_project_path(project), headers: authorization_headers(user)
+      assert_difference -> { user.projects.count }, -1 do
+        delete v1_project_path(project), headers: authorization_headers(user)
+      end
+
+      assert_response :success
     end
-
-    assert_response :success
   end
 end

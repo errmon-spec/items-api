@@ -14,6 +14,7 @@ module V1
 
     def create
       project = CreateProjectService.call(user: current_user, name: create_params[:name])
+      ProjectPublisher.publish(project_id: project.id, token: project.token)
       render json: ProjectSerializer.new(project)
     end
 
