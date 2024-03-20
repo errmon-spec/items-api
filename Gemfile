@@ -18,6 +18,10 @@ gem 'rails', '~> 7.1.3'
 gem 'sneakers', '~> 2.3'
 gem 'ulid', '~> 1.4'
 
+group :test do
+  gem 'faker', '~> 3.2'
+end
+
 group :development, :test do
   gem 'factory_bot_rails', '~> 6.2'
   gem 'rubocop', '~> 1.62', require: false

@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :project do
-    name { 'Project 1' }
     owner { association :user }
+    name { Faker::Company.name }
     token { SecureRandom.hex(20) }
   end
 end
