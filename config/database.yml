@@ -13,12 +13,12 @@ default: &default
 
 development:
   <<: *default
-  database: errmon_development
+  database: errmon_items_api_development
 
 test:
   <<: *default
-  database: errmon_test
+  database: errmon_items_api_test
 
 production:
   <<: *default
-  database: errmon_production
+  database: errmon_items_api_production

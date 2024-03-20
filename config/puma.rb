@@ -15,7 +15,6 @@ threads min_threads_count, max_threads_count
 
 workers ENV.fetch('RAILS_PUMA_WORKERS', 2)
 preload_app!
-silence_fork_callback_warning
 
 # Specifies the `worker_timeout` threshold that Puma will use to wait before
 # terminating a worker in development environments.

@@ -5,7 +5,7 @@ require_relative 'boot'
 require 'rails'
 # Pick the frameworks you want:
 require 'active_model/railtie'
-require 'active_job/railtie'
+# require 'active_job/railtie'
 require 'active_record/railtie'
 # require "active_storage/engine"
 require 'action_controller/railtie'
@@ -25,18 +25,10 @@ module Errmon
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
 
-    config.time_zone = 'Brasilia'
-
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
-
-    # Only loads a smaller set of middleware suitable for API only apps.
-    # Middleware like session, flash, cookies can be added back manually.
-    # Skip views, helpers and assets when generating a new resource.
-    config.api_only = true
-    config.active_record.schema_format = :sql
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -46,10 +38,15 @@ module Errmon
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    ##
-    ## Thread Pool
-    ##
+    # Only loads a smaller set of middleware suitable for API only apps.
+    # Middleware like session, flash, cookies can be added back manually.
+    # Skip views, helpers and assets when generating a new resource.
+    config.api_only = true
 
+    # Errmon
+    config.time_zone = 'Brasilia'
+
+    # Thread Pool
     config.max_threads = ENV.fetch('RAILS_MAX_THREADS', 5).to_i
 
     ##
@@ -63,6 +60,7 @@ module Errmon
     config.database_pool_size = config.max_threads
 
     config.active_record.db_warnings_action = :report
+    config.active_record.schema_format = :sql
 
     ActiveSupport.on_load(:active_record_postgresqladapter) do
       self.datetime_type = :timestamptz
@@ -76,18 +74,11 @@ module Errmon
     config.keycloak_realm_id = ENV.fetch('KEYCLOAK_REALM', 'errmon')
 
     ##
-    ## Logger
-    ##
-
-    config.logger = ActiveSupport::TaggedLogging.new(ActiveSupport::Logger.new($stdout))
-    config.log_level = ENV.fetch('RAILS_LOG_LEVEL', 'info')
-
-    ##
     ## Performance
     ##
 
     config.action_view.frozen_string_literal = true
-    config.active_support.message_serializer = :message_pack
     config.action_dispatch.cookies_serializer = :message_pack
+    config.active_support.message_serializer = :message_pack
   end
 end
