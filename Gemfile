@@ -21,7 +21,7 @@ end
 group :development, :test do
   gem 'awesome_print', '~> 1.9'
   gem 'debug', '~> 1.9'
-  gem 'rubocop', '~> 1.59', require: false
-  gem 'rubocop-minitest', '~> 0.34', require: false
-  gem 'rubocop-rails', '~> 2.23', require: false
+  gem 'rubocop', '~> 1.62', require: false
+  gem 'rubocop-minitest', '~> 0.35', require: false
+  gem 'rubocop-rails', '~> 2.24', require: false
 end
