@@ -1,5 +1,9 @@
 # Microsserviço: API de Itens
 
+## Testes
+
+[![continuous-integration](https://github.com/errmon-spec/items-api/actions/workflows/continuous-integration.yml/badge.svg?branch=main)](https://github.com/errmon-spec/items-api/actions/workflows/continuous-integration.yml)
+
 ## Desenvolvimento local
 
 Este projeto oferece suporte à contêineres de desenvolvimento (dev container).
