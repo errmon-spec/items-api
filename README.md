@@ -1,24 +1,17 @@
-# README
+# Microsserviço: API de Itens
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Desenvolvimento local
 
-Things you may want to cover:
+Este projeto oferece suporte à contêineres de desenvolvimento (dev container).
 
-* Ruby version
+### Docker compose
 
-* System dependencies
+```bash
+docker compose -f .devcontainer/docker-compose.yml run --rm runner
+```
 
-* Configuration
+### VS Code
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```bash
+devcontainer open .
+```

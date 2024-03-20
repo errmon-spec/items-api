@@ -1,0 +1,100 @@
+name: errmon-items-api
+
+services:
+  devcontainer:
+    container_name: errmon-items-api-devcontainer
+    image: errmon-items-api-devcontainer:0.1.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["sleep", "infinity"]
+    restart: no
+    env_file: ../.env
+    environment:
+      SSH_AUTH_SOCK: ${SSH_AUTH_SOCK:?err}
+      DATABASE_HOST: postgres
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_PORT: 5432
+      PGHOST: postgres
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGPORT: 5432
+      BUNDLE_PATH: /app/vendor/bundle
+      HISTFILE: /root/history.d/.bash_history
+      HISTFILESIZE: -1
+      HISTSIZE: -1
+      HISTCONTROL: erasedups:ignoreboth
+      PROMPT_COMMAND: history -a
+    volumes:
+      - ${SSH_AUTH_SOCK:?err}:${SSH_AUTH_SOCK:?err}:ro
+      - ../:/app
+      - history:/root/history.d
+    depends_on:
+      postgres:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+
+  runner:
+    extends: devcontainer
+    command: ["/bin/bash"]
+
+  web:
+    extends: runner
+    container_name: errmon-items-api-web
+    command: ["bin/puma", "-C", "config/puma.rb"]
+    ports:
+      - 3000:3000
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "1"
+
+  keycloak:
+    container_name: errmon-keycloak
+    image: quay.io/keycloak/keycloak:23.0.3
+    command: ["start-dev"]
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - 8080:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    container_name: errmon-postgres
+    image: postgres-ulid-ext:0.1.0
+    restart: no
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "localhost", "-U", "postgres"]
+      interval: 5s
+      timeout: 1s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "1"
+
+volumes:
+  history:
+  postgres-data:
