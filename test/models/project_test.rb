@@ -7,13 +7,13 @@ class ProjectTest < ActiveSupport::TestCase
     project = Project.new
 
     assert_not project.save
-    assert_includes project.errors.messages[:name], "can't be blank"
+    assert_includes project.errors.messages[:name], 'não pode ficar em branco'
   end
 
   test 'validates presence of token' do
     project = Project.new
 
     assert_not project.save
-    assert_includes project.errors.messages[:token], "can't be blank"
+    assert_includes project.errors.messages[:token], 'não pode ficar em branco'
   end
 end

@@ -7,7 +7,7 @@ class UserTest < ActiveSupport::TestCase
     user = User.new
 
     assert_not user.save
-    assert_includes user.errors.messages[:email], "can't be blank"
+    assert_includes user.errors.messages[:email], 'não pode ficar em branco'
   end
 
   test 'validates uniqueness of email' do
@@ -15,20 +15,20 @@ class UserTest < ActiveSupport::TestCase
     user = User.new(email: existing_user.email)
 
     assert_not user.save
-    assert_includes user.errors.messages[:email], 'has already been taken'
+    assert_includes user.errors.messages[:email], 'já está em uso'
   end
 
   test 'validates presence of first_name' do
     user = User.new
 
     assert_not user.save
-    assert_includes user.errors.messages[:first_name], "can't be blank"
+    assert_includes user.errors.messages[:first_name], 'não pode ficar em branco'
   end
 
   test 'validates presence of last_name' do
     user = User.new
 
     assert_not user.save
-    assert_includes user.errors.messages[:last_name], "can't be blank"
+    assert_includes user.errors.messages[:last_name], 'não pode ficar em branco'
   end
 end
