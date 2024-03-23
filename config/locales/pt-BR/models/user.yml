@@ -1,0 +1,13 @@
+pt-BR:
+  activerecord:
+    models:
+      user:
+        one: Usuário
+        other: Usuários
+    attributes:
+      user:
+        first_name: Primeiro nome
+        last_name: Sobrenome
+        email: E-mail
+        provider: Provedor OAuth
+        uid: ID OAuth

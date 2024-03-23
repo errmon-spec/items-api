@@ -1,0 +1,17 @@
+pt-BR:
+  activerecord:
+    models:
+      item:
+        one: Item
+        other: Itens
+    attributes:
+      item:
+        project: Projeto
+        library: Biblioteca
+        revision: Revisão
+        status: Status
+        read: Lido
+        level: Gravidade
+        type: Tipo
+        message: Mensagem
+        stack_trace: Stacktrace
