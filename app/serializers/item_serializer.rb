@@ -3,6 +3,7 @@
 class ItemSerializer < ApplicationSerializer
   def initialize(item)
     @item = item
+    super
   end
 
   def as_json

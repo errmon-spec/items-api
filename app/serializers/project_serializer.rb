@@ -3,6 +3,7 @@
 class ProjectSerializer < ApplicationSerializer
   def initialize(project)
     @project = project
+    super
   end
 
   def as_json

@@ -26,6 +26,8 @@ end
 group :development, :test do
   gem 'factory_bot_rails', '~> 6.2'
   gem 'rubocop', '~> 1.62', require: false
+  gem 'rubocop-factory_bot', '~> 2.25', require: false
   gem 'rubocop-minitest', '~> 0.35', require: false
+  gem 'rubocop-performance', '~> 1.20', require: false
   gem 'rubocop-rails', '~> 2.24', require: false
 end
