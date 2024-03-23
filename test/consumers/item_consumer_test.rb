@@ -11,4 +11,13 @@ class ItemsConsumerTest < ActiveSupport::TestCase
       consumer.work(payload)
     end
   end
+
+  test 'acks' do
+    consumer = ItemsConsumer.new
+    payload = Minitest::Mock.new
+
+    mock_call ItemProcessor, :call, payload do
+      assert_equal :ack, consumer.work(payload)
+    end
+  end
 end
