@@ -214,6 +214,9 @@ Rails/Date:
 Rails/DefaultScope:
   Enabled: true
 
+Rails/DeprecatedActiveModelErrorsMethods:
+  Enabled: false
+
 Rails/EnvironmentVariableAccess:
   Enabled: true
 
