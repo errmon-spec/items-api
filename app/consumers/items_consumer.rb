@@ -11,7 +11,9 @@ class ItemsConsumer
     retry_max_times: 10
 
   def work(payload)
-    ItemProcessor.call(payload)
+    result = ItemProcessor.call(payload)
+    return reject! if result.failure?
+
     ack!
   end
 end
