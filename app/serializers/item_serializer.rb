@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-class ItemSerializer < ApplicationSerializer
+class ItemSerializer
+  include ApplicationSerializer
+
   def initialize(item)
     @item = item
-    super
   end
 
   def as_json

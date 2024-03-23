@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-class ProjectSerializer < ApplicationSerializer
+class ProjectSerializer
+  include ApplicationSerializer
+
   def initialize(project)
     @project = project
-    super
   end
 
   def as_json
