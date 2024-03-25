@@ -10,14 +10,14 @@ class KeycloakTestAdapter
     patch!
   end
 
-  def generate_jwt(user = nil)
+  def generate_jwt(user, issued_at: Time.zone.now, expires_at: 1.day.from_now)
     claims = {
-      iat: Time.zone.now.to_i,
-      exp: 1.day.from_now.to_i,
-      sub: user&.uid || SecureRandom.uuid,
-      given_name: user&.first_name || 'John',
-      family_name: user&.last_name || 'Doe',
-      email: user&.email || 'john.doe@gmail.com',
+      iat: issued_at.to_i,
+      exp: expires_at.to_i,
+      sub: user.id,
+      email: user.email,
+      given_name: user.profile.given_name,
+      family_name: user.profile.family_name,
     }
     token = JSON::JWT.new(claims)
     token.kid = 'default'
@@ -37,19 +37,29 @@ class KeycloakTestAdapter
 end
 
 module KeycloakTestHelpers
-  def authorization_headers(user = nil)
-    jwt = KeycloakTestAdapter.instance.generate_jwt(user)
+  def authorization_headers(user)
+    keycloak_user = user.is_a?(KeycloakUser) ? user : user_to_keycloak_user(user)
+    jwt = KeycloakTestAdapter.instance.generate_jwt(keycloak_user)
+
     {
       'HTTP_AUTHORIZATION' => "Bearer #{jwt}",
     }
   end
 
-  def sign_in_as(user = nil)
-    jwt = KeycloakTestAdapter.instance.generate_jwt(user)
-    @request.env['HTTP_AUTHORIZATION'] = jwt
+  def user_to_keycloak_user(user)
+    KeycloakUser.new(
+      id: user.uid,
+      email: user.email,
+      profile: {
+        given_name: user.given_name,
+        family_name: user.family_name,
+      },
+    )
   end
 end
 
-class ActionDispatch::IntegrationTest # rubocop:disable Style/ClassAndModuleChildren
-  include KeycloakTestHelpers
+module ActiveSupport
+  class TestCase
+    include KeycloakTestHelpers
+  end
 end

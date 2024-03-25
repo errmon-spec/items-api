@@ -2,9 +2,9 @@
 
 FactoryBot.define do
   factory :user do
-    first_name { Faker::Name.first_name }
-    last_name { Faker::Name.last_name }
-    email { Faker::Internet.email(name: "#{first_name} #{last_name}", separators: ['-']) }
+    given_name { Faker::Name.first_name }
+    family_name { Faker::Name.last_name }
+    email { Faker::Internet.email(name: "#{given_name} #{family_name}", separators: ['-']) }
     provider { 'keycloak' }
     uid { SecureRandom.uuid }
   end

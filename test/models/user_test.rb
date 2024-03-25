@@ -18,17 +18,17 @@ class UserTest < ActiveSupport::TestCase
     assert_includes user.errors.messages[:email], 'já está em uso'
   end
 
-  test 'validates presence of first_name' do
+  test 'validates presence of given_name' do
     user = User.new
 
     assert_not user.save
-    assert_includes user.errors.messages[:first_name], 'não pode ficar em branco'
+    assert_includes user.errors.messages[:given_name], 'não pode ficar em branco'
   end
 
-  test 'validates presence of last_name' do
+  test 'validates presence of family_name' do
     user = User.new
 
     assert_not user.save
-    assert_includes user.errors.messages[:last_name], 'não pode ficar em branco'
+    assert_includes user.errors.messages[:family_name], 'não pode ficar em branco'
   end
 end

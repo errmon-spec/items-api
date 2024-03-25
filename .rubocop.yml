@@ -196,6 +196,9 @@ Metrics/MethodLength:
 Metrics/ModuleLength:
   Enabled: false
 
+Minitest/MultipleAssertions:
+  Enabled: false
+
 Naming/BlockParameterName:
   AllowNamesEndingInNumbers: false
 
@@ -284,14 +287,14 @@ Style/FrozenStringLiteralComment:
 
 Style/InverseMethods:
   InverseMethods:
-    ':blank?': ':present?'
-    ':present?': ':blank?'
+    ":blank?": ":present?"
+    ":present?": ":blank?"
 
 Style/InvertibleUnlessCondition:
   Enabled: true
   InverseMethods:
-    ':blank?': ':present?'
-    ':present?': ':blank?'
+    ":blank?": ":present?"
+    ":present?": ":blank?"
 
 Style/IpAddresses:
   Enabled: true

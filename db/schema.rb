@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_19_003009) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_25_013703) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "ulid"
@@ -53,8 +53,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_12_19_003009) do
   end
 
   create_table "users", id: :ulid, default: -> { "gen_ulid()" }, comment: "Usuários", force: :cascade do |t|
-    t.string "first_name", null: false, comment: "Primeiro nome do usuário"
-    t.string "last_name", null: false, comment: "Sobrenome do usuário"
+    t.string "given_name", null: false, comment: "Primeiro nome do usuário"
+    t.string "family_name", null: false, comment: "Sobrenome do usuário"
     t.string "email", null: false, comment: "Endereço de e-mail, único para cada usuário"
     t.datetime "created_at", default: -> { "now()" }, null: false
     t.datetime "updated_at", default: -> { "now()" }, null: false

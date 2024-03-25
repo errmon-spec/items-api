@@ -14,7 +14,7 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
       assert_equal ProjectSerializer.serialize_collection(projects).to_json, @response.body
     end
 
-    test 'paginates' do # rubocop:disable Minitest/MultipleAssertions
+    test 'paginates' do
       user = create(:user)
       create_list(:project, 2, owner: user)
 
@@ -24,6 +24,13 @@ class ProjectsControllerTest < ActionDispatch::IntegrationTest
       assert_equal '20', @response.headers['page-items']
       assert_equal '1', @response.headers['total-pages']
       assert_equal '2', @response.headers['total-count']
+    end
+
+    test 'fails with authorization error when JWT token is not provided' do
+      get v1_projects_path
+
+      assert_response :unauthorized
+      assert_equal '{"error":"No JWT token provided"}', @response.body
     end
   end
 

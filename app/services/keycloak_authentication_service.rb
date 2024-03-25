@@ -1,23 +1,31 @@
 # frozen_string_literal: true
 
 class KeycloakAuthenticationService
-  def self.call(omniauth_result)
-    new(omniauth_result).call
+  include Dry::Monads[:result]
+
+  def self.call(keycloak_user)
+    new(keycloak_user).call
   end
 
-  def initialize(omniauth_result)
-    @omniauth_result = omniauth_result
+  def initialize(keycloak_user)
+    @keycloak_user = keycloak_user
   end
 
   def call
-    User.find_or_create_by!(provider: omniauth_result.provider, uid: omniauth_result.uid) do |user|
-      user.first_name = omniauth_result.first_name
-      user.last_name = omniauth_result.last_name
-      user.email = omniauth_result.email
-    end
+    scope = User.by_keycloak_id(keycloak_user.id)
+    user = scope.take || scope.new
+
+    user.assign_attributes(
+      email: keycloak_user.email,
+      given_name: keycloak_user.profile.given_name,
+      family_name: keycloak_user.profile.family_name,
+    )
+    user.save! if user.changed?
+
+    Success(user)
   end
 
   private
 
-  attr_reader :omniauth_result
+  attr_reader :keycloak_user
 end

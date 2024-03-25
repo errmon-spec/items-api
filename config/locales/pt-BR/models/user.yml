@@ -6,8 +6,8 @@ pt-BR:
         other: Usuários
     attributes:
       user:
-        first_name: Primeiro nome
-        last_name: Sobrenome
+        given_name: Primeiro nome
+        family_name: Sobrenome
         email: E-mail
         provider: Provedor OAuth
         uid: ID OAuth

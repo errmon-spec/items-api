@@ -3,45 +3,43 @@
 require 'test_helper'
 
 class KeycloakAuthenticationServiceTest < ActiveSupport::TestCase
-  test 'creates a new user from omniauth result if user does not exist' do # rubocop:disable Minitest/MultipleAssertions
-    omniauth_result = User::OmniauthResult.new(
-      provider: 'test-provider',
-      uid: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-      first_name: 'Foo',
-      last_name: 'Bar',
-      email: 'foo.bar@example.com',
-    )
+  test 'creates a new user' do
+    keycloak_user = build(:keycloak_user)
 
-    assert_difference -> { User.count }, 1 do
-      user = KeycloakAuthenticationService.call(omniauth_result)
+    result = KeycloakAuthenticationService.call(keycloak_user)
 
-      assert_equal 'test-provider', user.provider
-      assert_equal 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', user.uid
-      assert_equal 'foo.bar@example.com', user.email
-      assert_equal 'Foo', user.first_name
-      assert_equal 'Bar', user.last_name
-    end
+    assert_predicate result, :success?
+
+    user = result.value!
+
+    assert_equal 'keycloak', user.provider
+    assert_equal keycloak_user.id, user.uid
+    assert_equal keycloak_user.email, user.email
+    assert_equal keycloak_user.profile[:given_name], user.given_name
+    assert_equal keycloak_user.profile[:family_name], user.family_name
   end
 
-  test 'finds existing user from omniauth result' do
-    user = User.create!(
-      provider: 'test-provider',
-      uid: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-      first_name: 'Foo',
-      last_name: 'Bar',
-      email: 'foo.bar@example.com',
+  test 'updates an existing user' do
+    existing_user = create(:user)
+    keycloak_user = build(
+      :keycloak_user,
+      id: existing_user.uid,
+      email: 'amelia.lily@errmon.local',
+      profile: {
+        given_name: 'Amelia',
+        family_name: 'Lily',
+      },
     )
 
-    assert_no_difference -> { User.count } do
-      new_user = KeycloakAuthenticationService.call User::OmniauthResult.new(
-        provider: 'test-provider',
-        uid: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
-        first_name: 'Foo',
-        last_name: 'Bar',
-        email: 'foo.bar@example.com',
-      )
+    result = KeycloakAuthenticationService.call(keycloak_user)
 
-      assert_equal user, new_user
-    end
+    assert_predicate result, :success?
+
+    user = result.value!
+
+    assert_equal existing_user.reload, user
+    assert_equal 'amelia.lily@errmon.local', existing_user.email
+    assert_equal 'Amelia', existing_user.given_name
+    assert_equal 'Lily', existing_user.family_name
   end
 end
