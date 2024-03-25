@@ -3,7 +3,7 @@
 require 'test_helper'
 
 class ItemProcessorTest < ActiveSupport::TestCase
-  test 'creates an item from the event data' do # rubocop:disable Minitest/MultipleAssertions
+  test 'creates an item from the event data' do
     project = create(:project)
     payload = {
       project_id: project.id,
