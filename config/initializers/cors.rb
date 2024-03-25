@@ -7,10 +7,9 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
-Rails.application.config.middleware.insert_before 0, Rack::Cors do
-  # TODO: configurar de acordo com o ambiente (local, staging, produção, etc)
+Rails.application.config.middleware.insert_before 0, Rack::Cors, logger: -> { SemanticLogger[Rack::Cors] } do
   allow do
     origins '*'
-    resource '*', headers: :any, methods: %i[get post patch put]
+    resource '*', headers: :any, methods: %i[get post patch put delete]
   end
 end

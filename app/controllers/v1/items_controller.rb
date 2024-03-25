@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module V1
-  class ItemsController < ApplicationController
+  class ItemsController < V1::BaseController
     def index
       pagy, items = pagy(project.items)
       pagy_headers_merge(pagy)

@@ -3,6 +3,20 @@
 module Authenticable
   extend ActiveSupport::Concern
 
+  included do
+    include Keycloak::Authentication
+
+    before_action :keycloak_authenticate
+    before_action :authorize_user!
+  end
+
+  private
+
+  def append_info_to_payload(payload)
+    super
+    payload[:user_id] = current_user.uid if current_user
+  end
+
   def current_user
     @_current_user ||= begin
       attributes = Keycloak::Helper.current_user_custom_attributes(request.env)
