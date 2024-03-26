@@ -21,11 +21,6 @@ services:
       PGPASSWORD: postgres
       PGPORT: 5432
       BUNDLE_PATH: /app/vendor/bundle
-      HISTFILE: /root/history.d/.bash_history
-      HISTFILESIZE: -1
-      HISTSIZE: -1
-      HISTCONTROL: erasedups:ignoreboth
-      PROMPT_COMMAND: history -a
     volumes:
       - ${SSH_AUTH_SOCK:?err}:${SSH_AUTH_SOCK:?err}:ro
       - ../:/app
@@ -33,8 +28,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      keycloak:
-        condition: service_started
     deploy:
       resources:
         limits:
@@ -50,6 +43,11 @@ services:
     command: ["bin/puma", "-C", "config/puma.rb"]
     ports:
       - 3000:3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
     deploy:
       resources:
         limits:
